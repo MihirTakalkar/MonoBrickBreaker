@@ -11,7 +11,8 @@ namespace BrickBreaker_
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Ball ball;
+        PaddBrick paddle;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -39,7 +40,9 @@ namespace BrickBreaker_
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            ball = new Ball(new Vector2(30, 30), Content.Load<Texture2D>("savage"), new Vector2(10, 10), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            Texture2D paddleimage = Content.Load<Texture2D>("paddle");
+            //paddle = new PaddBrick(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height), );
             // TODO: use this.Content to load your game content here
         }
 
@@ -63,7 +66,7 @@ namespace BrickBreaker_
                 Exit();
 
             // TODO: Add your update logic here
-
+            ball.Update();
             base.Update(gameTime);
         }
 
@@ -76,8 +79,10 @@ namespace BrickBreaker_
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            ball.Draw(spriteBatch);
             base.Draw(gameTime);
+            spriteBatch.End();
         }
     }
 }
