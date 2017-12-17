@@ -41,8 +41,8 @@ namespace BrickBreaker_
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ball = new Ball(new Vector2(30, 30), Content.Load<Texture2D>("savage"), new Vector2(10, 10), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            Texture2D paddleimage = Content.Load<Texture2D>("paddle");
-            //paddle = new PaddBrick(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height), );
+            Texture2D paddleimage = Content.Load<Texture2D>("stuff");
+            paddle = new PaddBrick(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 5, Color.White);
             // TODO: use this.Content to load your game content here
         }
 
@@ -64,6 +64,17 @@ namespace BrickBreaker_
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            KeyboardState ks = Keyboard.GetState();
+            if (ks.IsKeyDown(Keys.Left))
+            {
+                paddle.position.X -= 7;
+            }
+            if (ks.IsKeyDown(Keys.Right))
+            {
+               paddle.position.X += 7;
+            }
+
+           
 
             // TODO: Add your update logic here
             ball.Update();
@@ -76,13 +87,15 @@ namespace BrickBreaker_
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             ball.Draw(spriteBatch);
-            base.Draw(gameTime);
+            paddle.Draw(spriteBatch);
             spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }
