@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BrickBreaker_
 {
@@ -13,6 +18,8 @@ namespace BrickBreaker_
         SpriteBatch spriteBatch;
         Ball ball;
         Paddle paddle;
+        List<Brick> bricks;
+        
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -45,7 +52,11 @@ namespace BrickBreaker_
             ball = new Ball(new Vector2(30, 30), Content.Load<Texture2D>("Ball"), new Vector2(10, 10), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             Texture2D paddleimage = Content.Load<Texture2D>("Paddle");
             paddle = new Paddle(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 5, Color.White);
-            // TODO: use this.Content to load your game content here
+            bricks = new List<Brick>();
+            for (int i = 0; i > 6; i++)
+            {
+                bricks.Add(new Brick(new Vector2(i * 70 + 55, 20), Content.Load<Texture2D>("Brick"), Color.White));
+            }
         }
 
         /// <summary>
@@ -75,11 +86,16 @@ namespace BrickBreaker_
             {
                paddle.position.X += 7;
             }
-
+            if(ball.hitbox.Intersects(paddle.hitbox))
+            {
+                ball.speed.Y = -Math.Abs(ball.speed.Y);
+            }
            
 
             // TODO: Add your update logic here
             ball.Update();
+            paddle.Update(graphics.GraphicsDevice);
+          
             base.Update(gameTime);
         }
 
@@ -93,6 +109,10 @@ namespace BrickBreaker_
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            for (int f = 0; f > 10; f++)
+            {
+                bricks[f].Draw(spriteBatch);
+            }
             ball.Draw(spriteBatch);
             paddle.Draw(spriteBatch);
             spriteBatch.End();

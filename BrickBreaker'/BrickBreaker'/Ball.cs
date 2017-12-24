@@ -17,8 +17,8 @@ namespace BrickBreaker_
         public Color tint;
         public Vector2 bounds;
         public Rectangle hitbox;
-        public bool IsDebugMode { get; set; } = true;
-        private static Texture2D debugPixel;
+        //        public bool IsDebugMode { get; set; } = true;
+        //      private static Texture2D debugPixel;
 
         public Ball(Vector2 Position, Texture2D Image, Vector2 Speed, Color Tint, Vector2 Bounds)
         {
@@ -28,11 +28,11 @@ namespace BrickBreaker_
             tint = Tint;
             bounds = Bounds;
             hitbox = new Rectangle((int)position.X, (int)position.Y, image.Width, image.Height);
-            if (debugPixel == null)
-            {
-                debugPixel = new Texture2D(image.GraphicsDevice, 1, 1);
-                debugPixel.SetData(new[] { Color.White });
-            }
+            // if (debugPixel == null)
+            // {
+            //   debugPixel = new Texture2D(image.GraphicsDevice, 1, 1);
+            //  debugPixel.SetData(new[] { Color.White });
+            //}
         }
 
         public void Update()
@@ -40,21 +40,15 @@ namespace BrickBreaker_
             {
                 position += speed;
 
-                if (position.Y + image.Height > bounds.Y)
-                {
-                    speed.Y = -Math.Abs(speed.Y);
-                    
-
-                }
                 if (position.X + image.Width > bounds.X)
                 {
                     speed.X = -Math.Abs(speed.X);
-             
+
                 }
                 if (position.X < 0)
                 {
                     speed.X = Math.Abs(speed.X);
-                
+
                 }
                 if (position.Y < 0)
                 {
@@ -70,10 +64,10 @@ namespace BrickBreaker_
         public void Draw(SpriteBatch batch)
         {
             batch.Draw(image, position, tint);
-            if (IsDebugMode)
-            {
-                batch.Draw(debugPixel, hitbox, Color.Orange * 0.5f);
-            }
+            //  if (IsDebugMode)
+            //{
+            //   batch.Draw(debugPixel, hitbox, Color.Orange * 0.5f);
+            //}
         }
 
     }

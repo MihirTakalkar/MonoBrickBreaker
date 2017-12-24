@@ -28,7 +28,7 @@ namespace BrickBreaker_
         }
         public void Draw(SpriteBatch spritebatch)
         {
-
+            spritebatch.Draw(image, position, tint);
         }
     }
 }
