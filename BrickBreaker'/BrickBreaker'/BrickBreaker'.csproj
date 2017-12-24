@@ -42,8 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Ball.cs" />
-    <Compile Include="Game1.cs" />
-    <Compile Include="PaddBrick.cs" />
+    <Compile Include="Brick.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Paddle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

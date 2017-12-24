@@ -7,16 +7,18 @@ namespace BrickBreaker_
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Ball ball;
-        PaddBrick paddle;
-        public Game1()
+        Paddle paddle;
+        public Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1720;
+            graphics.PreferredBackBufferHeight = 880;
         }
 
         /// <summary>
@@ -40,9 +42,9 @@ namespace BrickBreaker_
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ball = new Ball(new Vector2(30, 30), Content.Load<Texture2D>("savage"), new Vector2(10, 10), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            Texture2D paddleimage = Content.Load<Texture2D>("stuff");
-            paddle = new PaddBrick(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 5, Color.White);
+            ball = new Ball(new Vector2(30, 30), Content.Load<Texture2D>("Ball"), new Vector2(10, 10), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            Texture2D paddleimage = Content.Load<Texture2D>("Paddle");
+            paddle = new Paddle(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 5, Color.White);
             // TODO: use this.Content to load your game content here
         }
 
@@ -94,6 +96,7 @@ namespace BrickBreaker_
             ball.Draw(spriteBatch);
             paddle.Draw(spriteBatch);
             spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
