@@ -24,11 +24,12 @@ namespace BrickBreaker_
         }
         public void Update()
         {
-
+            hitbox.X = (int)position.X;
+            hitbox.Y = (int)position.Y;
         }
         public void Draw(SpriteBatch spritebatch)
         {
-
+            spritebatch.Draw(image, position, tint);
         }
     }
 }

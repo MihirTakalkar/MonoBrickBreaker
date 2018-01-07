@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace BrickBreaker_
 {
@@ -11,14 +13,15 @@ namespace BrickBreaker_
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        List<Brick> bricks;
         Ball ball;
         Paddle paddle;
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1720;
-            graphics.PreferredBackBufferHeight = 880;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
         }
 
         /// <summary>
@@ -46,6 +49,24 @@ namespace BrickBreaker_
             Texture2D paddleimage = Content.Load<Texture2D>("Paddle");
             paddle = new Paddle(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 5, Color.White);
             // TODO: use this.Content to load your game content here
+            bricks = new List<Brick>();
+            for (int i = 0; i <= 3;)
+            {
+                for (int g = 0; g < 12; g++)
+                {
+                  bricks.Add(new Brick(new Vector2(g * 160, 145), Content.Load<Texture2D>("Brick"), Color.White));
+                    i++;
+                }
+                for(int t = 0; t < 12; t++)
+                {
+                    bricks.Add(new Brick(new Vector2(t * 160, 260), Content.Load<Texture2D>("Brick"), Color.White));
+                }
+                for (int z = 0; z < 12; z++)
+                {
+                    bricks.Add(new Brick(new Vector2(z * 160, 375), Content.Load<Texture2D>("Brick"), Color.White));
+                }
+            }
+            
         }
 
         /// <summary>
@@ -69,17 +90,36 @@ namespace BrickBreaker_
             KeyboardState ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.Left))
             {
-                paddle.position.X -= 7;
+                if (paddle.position.X > 0)
+                {
+                    paddle.position.X -= 7;
+                }
             }
             if (ks.IsKeyDown(Keys.Right))
             {
-               paddle.position.X += 7;
+                if (paddle.position.X < GraphicsDevice.Viewport.Width - paddle.image.Width)
+                {
+                    paddle.position.X += 7;
+                }
+            }
+            for (int x = 0; x < bricks.Count; x++)
+            {
+                if (bricks[x].hitbox.Intersects(ball.hitbox))
+                {
+                    bricks.RemoveAt(x);
+                    ball.speed.Y *= -1;
+                    break;
+                }
             }
 
-           
 
             // TODO: Add your update logic here
+            if (paddle.hitbox.Intersects(ball.hitbox))
+            {
+                ball.speed.Y = -Math.Abs(ball.speed.Y);
+            }
             ball.Update();
+            paddle.Update(GraphicsDevice);
             base.Update(gameTime);
         }
 
@@ -95,6 +135,10 @@ namespace BrickBreaker_
             spriteBatch.Begin();
             ball.Draw(spriteBatch);
             paddle.Draw(spriteBatch);
+            for (int f = 0; f < bricks.Count; f++)
+            {
+                bricks[f].Draw(spriteBatch);
+            }
             spriteBatch.End();
 
 
