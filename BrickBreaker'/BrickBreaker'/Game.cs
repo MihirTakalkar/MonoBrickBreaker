@@ -13,9 +13,12 @@ namespace BrickBreaker_
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont Tekton;
         List<Brick> bricks;
         Ball ball;
         Paddle paddle;
+        int f;
+        int n;
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -45,19 +48,20 @@ namespace BrickBreaker_
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ball = new Ball(new Vector2(30, 30), Content.Load<Texture2D>("Ball"), new Vector2(10, 10), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            ball = new Ball(new Vector2(1000, 900), Content.Load<Texture2D>("Ball"), new Vector2(12, 12), Color.White, new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             Texture2D paddleimage = Content.Load<Texture2D>("Paddle");
-            paddle = new Paddle(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 5, Color.White);
+            paddle = new Paddle(new Vector2((GraphicsDevice.Viewport.Width - paddleimage.Width) / 2, (GraphicsDevice.Viewport.Height - paddleimage.Height)), paddleimage, 20, Color.White);
             // TODO: use this.Content to load your game content here
+            Tekton = Content.Load<SpriteFont>("Tekton");
             bricks = new List<Brick>();
             for (int i = 0; i <= 3;)
             {
                 for (int g = 0; g < 12; g++)
                 {
-                  bricks.Add(new Brick(new Vector2(g * 160, 145), Content.Load<Texture2D>("Brick"), Color.White));
+                    bricks.Add(new Brick(new Vector2(g * 160, 145), Content.Load<Texture2D>("Brick"), Color.White));
                     i++;
                 }
-                for(int t = 0; t < 12; t++)
+                for (int t = 0; t < 12; t++)
                 {
                     bricks.Add(new Brick(new Vector2(t * 160, 260), Content.Load<Texture2D>("Brick"), Color.White));
                 }
@@ -66,7 +70,7 @@ namespace BrickBreaker_
                     bricks.Add(new Brick(new Vector2(z * 160, 375), Content.Load<Texture2D>("Brick"), Color.White));
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -92,14 +96,14 @@ namespace BrickBreaker_
             {
                 if (paddle.position.X > 0)
                 {
-                    paddle.position.X -= 7;
+                    paddle.position.X -= paddle.speedx;
                 }
             }
             if (ks.IsKeyDown(Keys.Right))
             {
                 if (paddle.position.X < GraphicsDevice.Viewport.Width - paddle.image.Width)
                 {
-                    paddle.position.X += 7;
+                    paddle.position.X += paddle.speedx;
                 }
             }
             for (int x = 0; x < bricks.Count; x++)
@@ -108,11 +112,26 @@ namespace BrickBreaker_
                 {
                     bricks.RemoveAt(x);
                     ball.speed.Y *= -1;
+                    n++;
                     break;
+                    
                 }
             }
+            
+            if (ball.position.Y > GraphicsDevice.Viewport.Height)
+            {
+                ball.position.X = 1000;
+                ball.position.Y = 900;
+                paddle.position.X = (GraphicsDevice.Viewport.Width - paddle.image.Width) / 2;
+                paddle.position.Y = (GraphicsDevice.Viewport.Height - paddle.image.Height);
+                f++;
+            }
+           
 
+            if (ball.position.Y > GraphicsDevice.Viewport.Height)
+            {
 
+            }
             // TODO: Add your update logic here
             if (paddle.hitbox.Intersects(ball.hitbox))
             {
@@ -138,6 +157,16 @@ namespace BrickBreaker_
             for (int f = 0; f < bricks.Count; f++)
             {
                 bricks[f].Draw(spriteBatch);
+            }
+
+            spriteBatch.DrawString(Tekton, $"Losses: {f}", new Vector2(30, 30), Color.Orange);
+            if (f == 10)
+            {
+                spriteBatch.DrawString(Tekton, $"You Lose", new Vector2(1700, 30), Color.Orange);
+            }
+            if (n == 36)
+            { 
+                spriteBatch.DrawString(Tekton, $"You Win", new Vector2(1700, 30), Color.Orange);
             }
             spriteBatch.End();
 

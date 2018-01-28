@@ -49,3 +49,10 @@
 /processorParam:TextureFormat=Color
 /build:Brick.png
 
+#begin Tekton.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Tekton.spritefont
+
