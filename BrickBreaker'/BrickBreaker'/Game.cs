@@ -20,8 +20,7 @@ namespace BrickBreaker_
         int f;
         int n;
         int y = 145;
-        bool pause = false;
-        List<Brick> bricks;
+        bool pause = false;        
         
         public Game()
         {
