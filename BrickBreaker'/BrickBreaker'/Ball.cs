@@ -34,12 +34,12 @@ namespace BrickBreaker_
                 if (position.X + image.Width > bounds.X)
                 {
                     speed.X = -Math.Abs(speed.X);
-             
+
                 }
                 if (position.X < 0)
                 {
                     speed.X = Math.Abs(speed.X);
-                
+
                 }
                 if (position.Y < 0)
                 {
@@ -54,7 +54,6 @@ namespace BrickBreaker_
         public void Draw(SpriteBatch batch)
         {
             batch.Draw(image, position, tint);
-  
         }
 
     }

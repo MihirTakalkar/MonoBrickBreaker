@@ -25,8 +25,19 @@ namespace BrickBreaker_
             tint = Tint;
             hitbox = new Rectangle((int)position.X, (int)position.Y, image.Width, image.Height);
         }
+
         public void Update(GraphicsDevice graphics)
         {
+            if (position.X > 0)
+            {
+                position.X -= speedx;
+
+            }
+            if (position.X < graphics.Viewport.Width - image.Width)
+            {
+                position.X += speedx;
+
+            }
             hitbox.X = (int)position.X;
             hitbox.Y = (int)position.Y;
         }

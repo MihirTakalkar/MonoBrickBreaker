@@ -21,6 +21,8 @@ namespace BrickBreaker_
         int n;
         int y = 145;
         bool pause = false;
+        List<Brick> bricks;
+        
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -155,6 +157,10 @@ namespace BrickBreaker_
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            for (int f = 0; f > 10; f++)
+            {
+                bricks[f].Draw(spriteBatch);
+            }
             ball.Draw(spriteBatch);
             paddle.Draw(spriteBatch);
             for (int f = 0; f < bricks.Count; f++)
